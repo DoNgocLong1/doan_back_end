@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import db from "../models/index";
 const checkUserEmail = (userEmail) => {
     return new Promise(async (resolve, reject) => {
@@ -22,15 +23,18 @@ const handleUserLogin = (email, password) => {
             const isExist = await checkUserEmail(email)
             if(isExist) {
                 const user = await db.User.findOne({
-                    attributes: ['email', 'roleId', 'password'],
+                    attributes: ['email', 'roleId', 'password', 'image', 'firstname', 'lastname'],
                     where: {email: email},
                     raw: true
                 })
                 if(user) {
                     if(user.password === password) {
                         userData.errCode = 0
+                        const token = jwt.sign({email: email}, process.env.JWT_KEY, {expiresIn: '900000s'})
+                        userData.token = token
                         userData.errMessage = "login success"
                         delete user.password
+                        console.log(token)
                         userData.user = user
                     }else {
                         userData.errCode = 3

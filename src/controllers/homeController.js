@@ -15,8 +15,8 @@ const getCRUD = (req, res) => {
     return res.render("crud.ejs")
 }
 const postCRUD = async (req, res) => {
-    await CRUDuser.createUser(req.body)
-    return res.send('post ')
+    const data = await CRUDuser.createUser(req.body)
+    return res.send(data)
 }
 const getUsers = async (req, res) => {
     const data = await CRUDuser.getUsers()

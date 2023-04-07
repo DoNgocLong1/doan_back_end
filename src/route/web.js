@@ -13,6 +13,11 @@ const initWebRouters = (app) => {
     router.post('/put-user', homeController.updateUser)
     router.get('/delete-user', homeController.deleteUser)
 
+    router.get('/products/get-all-products', productController.listProduct)
+    router.get('/products/post', productController.postProduct)
+    router.get('/products/delete', productController.deleteProduct)
+    router.get('/products/edit', productController.editProduct)
+    router.get('/products/update', productController.updateProduct)
 
     router.post('/api/login', userController.handleLogin)
     router.post('/api/registry', userController.handleRegistry)
@@ -21,9 +26,12 @@ const initWebRouters = (app) => {
     router.get('/api/get-categories', categoryController.getCategories)
 
     router.post('/api/products/create-product', productController.createProduct)
+    router.get('/api/products/popular-product', productController.popularProduct)
     router.post('/api/create-product-image', productController.createProductImage)
     router.get('/api/products/get-all-products', productController.getProduct)
     router.get('/api/products/filter', productController.filterProduct)
+    router.get('/api/products/count', productController.count)
+    router.get('/api/products/product-detail', productController.selectProduct)
     //router.get('/api/search', productController.searchProduct)
     return app.use('/', router)
 }

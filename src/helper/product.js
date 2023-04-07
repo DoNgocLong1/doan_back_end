@@ -13,6 +13,7 @@ const seeds = (number) => {
                     quantityInStock: 10 + i,
                     rate: 4,
                     discount: 10 + i,
+                    sold: 50 + i,
                 })
                 resolve('create product succeed')
             }catch (e) {
@@ -33,6 +34,7 @@ const seeds = (number) => {
                     quantityInStock: 10 + i,
                     rate: 4,
                     discount: 10 + i,
+                    sold: 10 + i,
                 })
                 resolve('create product succeed')
             }catch (e) {
@@ -53,6 +55,7 @@ const seeds = (number) => {
                     quantityInStock: 10 + i,
                     rate: 4,
                     discount: 10 + i,
+                    sold: 20 + i,
                 })
                 resolve('create product succeed')
             }catch (e) {
@@ -73,6 +76,7 @@ const seeds = (number) => {
                     quantityInStock: 10 + i,
                     rate: 4,
                     discount: 10 + i,
+                    sold: 40 + (i * 10),
                 })
                 resolve('create product succeed')
             }catch (e) {
@@ -93,6 +97,7 @@ const seeds = (number) => {
                     quantityInStock: 10 + i,
                     rate: 4,
                     discount: 10 + i,
+                    sold: 30 + (1 * 5),
                 })
                 resolve('create product succeed')
             }catch (e) {
@@ -113,6 +118,7 @@ const seeds = (number) => {
                     quantityInStock: 10 + i,
                     rate: 4,
                     discount: 10 + i,
+                    sold: 50 + i,
                 })
                 resolve('create product succeed')
             }catch (e) {

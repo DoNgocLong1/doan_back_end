@@ -1,6 +1,7 @@
 import db from "../models/index"
 
 const createUser = async (data) => {
+    console.log(data)
     return new Promise(async (resolve, reject) => {
         try{
             await db.User.create({
@@ -11,6 +12,7 @@ const createUser = async (data) => {
                 address: data.address,
                 phonenumber: data.phonenumber,
                 gender: data.gender === '1' ? true : false,
+                image: data.image,
                 roleId: data.roleId,
             })
             resolve('create user succeed')
@@ -32,7 +34,7 @@ const getUsers = async () => {
 const editUser = async (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const user = await db.User.findOne({ 
+            const user = await db.User.findOne({
                 where: { id: userId },
                 raw: true
             })
@@ -50,7 +52,7 @@ const updateUser = async (data) => {
     console.log("data",data)
     return new Promise(async (resolve, reject) => {
         try {
-            const user = await db.User.findOne({ 
+            const user = await db.User.findOne({
                 where: { id: data.id }
             })
             if(user) {
@@ -60,7 +62,7 @@ const updateUser = async (data) => {
                 user.address = data.address
                 user.phonenumber = data.phonenumber
                 user.gender = data.gender
-                await user.save() 
+                await user.save()
                 const allUsers = await db.User.findAll({ raw: true})
                 resolve(allUsers)
             }else{
@@ -74,7 +76,7 @@ const updateUser = async (data) => {
 const deleteUser = async (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const user = await db.User.findOne({ 
+            const user = await db.User.findOne({
                 where: { id: userId }
             })
             if(user) {
@@ -86,7 +88,7 @@ const deleteUser = async (userId) => {
         }
     })
 }
-module.exports = { 
+module.exports = {
     createUser,
     getUsers,
     editUser,

@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vh;
+  height: 100vh;
+}
+
+/*# sourceMappingURL=app.css.map */

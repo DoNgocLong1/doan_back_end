@@ -35,6 +35,9 @@ module.exports = {
       discount: {
         type: Sequelize.FLOAT
       },
+      sold : {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
