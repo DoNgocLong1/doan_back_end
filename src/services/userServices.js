@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken";
 import db from "../models/index";
 const checkUserEmail = (userEmail) => {
@@ -6,7 +7,7 @@ const checkUserEmail = (userEmail) => {
             const user = await db.User.findOne({
                 where: { email: userEmail }
             })
-            if(user) {
+            if (user) {
                 resolve(true)
             } else {
                 resolve(false)
@@ -21,32 +22,32 @@ const handleUserLogin = (email, password) => {
         try {
             const userData = {}
             const isExist = await checkUserEmail(email)
-            if(isExist) {
+            if (isExist) {
                 const user = await db.User.findOne({
                     attributes: ['email', 'roleId', 'password', 'image', 'firstname', 'lastname'],
-                    where: {email: email},
+                    where: { email: email },
                     raw: true
                 })
-                if(user) {
-                    if(user.password === password) {
+                if (user) {
+                    const check = await bcrypt.compareSync(password, user.password)
+                    if (check) {
                         userData.errCode = 0
-                        const token = jwt.sign({email: email}, process.env.JWT_KEY, {expiresIn: '900000s'})
+                        const token = jwt.sign({ email: email }, process.env.JWT_KEY, { expiresIn: '900000s' })
                         userData.token = token
                         userData.errMessage = "login success"
                         delete user.password
-                        console.log(token)
                         userData.user = user
-                    }else {
+                    } else {
                         userData.errCode = 3
                         userData.errMessage = "Wrong password"
                     }
                 }
-            }else {
+            } else {
                 userData.errCode = 1
                 userData.errMessage = `Your Email isn't exist`
             }
             resolve(userData)
-        } catch(e) {
+        } catch (e) {
             reject(e)
         }
     })

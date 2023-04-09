@@ -8,10 +8,10 @@ import cors from 'cors'
 import product from '../src/helper/product'
 require('dotenv').config()
 const app = express()
-app.use(cors({ origin:true }))
+app.use(cors({ origin: true }))
 app.use(bodyParser.json())
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded( {extended: true} ))
+app.use(bodyParser.urlencoded({ extended: true }))
 viewEngine(app)
 initWebRouters(app)
 connectDB()
@@ -20,3 +20,4 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
 //product.seeds(15)
+//product.seedImage()

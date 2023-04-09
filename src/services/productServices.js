@@ -171,8 +171,8 @@ const filterProduct = (params) => {
                 include: [
                     {
                         model: db.Image_Product,
-                        attributes: ['image'],
-                    },
+                        attributes: ['image']
+                    }
                 ],
                 /* attributes: {
                     include: [
@@ -185,6 +185,8 @@ const filterProduct = (params) => {
                 order: orderRules,
                 offset: skip,
                 limit: pageSize,
+                raw: true,
+                nest: true,
                 //group: ['id']
             })
             if (products) {
