@@ -23,6 +23,7 @@ const initWebRouters = (app) => {
     router.post('/api/registry', userController.handleRegistry)
 
     router.post('/api/create-category', categoryController.createCategory)
+    router.post('/api/delete-categories', categoryController.deleteCategories)
     router.get('/api/get-categories', categoryController.getCategories)
 
     router.post('/api/products/create-product', productController.createProduct)
