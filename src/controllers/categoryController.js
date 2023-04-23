@@ -3,8 +3,21 @@ const createCategory = async (req, res) => {
     const category = await categoryServices.createCategory(req.body)
     return res.json({ message: category })
 }
-const deleteCategories = async (req, res) => {
-    const category = await categoryServices.deleteCategory(req.body.id)
+const deleteCategory = async (req, res) => {
+    const categoryId = req.body.id
+    if (categoryId) {
+        const category = await categoryServices.deleteCategory(categoryId)
+        return res.json({ message: category })
+    } else {
+        return res.json({ message: 'category not found' })
+    }
+}
+const updateCategory = async (req, res) => {
+    const category = await categoryServices.updateCategory(req.body)
+    return res.json({ message: category })
+}
+const editCategory = async (req, res) => {
+    const category = await categoryServices.editCategory(req.body.id)
     return res.json({ data: category })
 }
 const getCategories = async (req, res) => {
@@ -13,6 +26,8 @@ const getCategories = async (req, res) => {
 }
 module.exports = {
     createCategory,
-    deleteCategories,
+    deleteCategory,
+    editCategory,
+    updateCategory,
     getCategories,
 }

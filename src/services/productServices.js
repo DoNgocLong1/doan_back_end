@@ -44,7 +44,58 @@ const getAllProduct = () => {
             reject(e)
         }
     })
-
+}
+const deleteProduct = async (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const product = await db.Product.findOne({
+                where: { id: id }
+            })
+            if (product) {
+                await product.destroy()
+            }
+            resolve('delete Product succeed')
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+const editProduct = async (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const product = await db.Product.findOne({
+                where: { id: id },
+                raw: true
+            })
+            if (product) {
+                resolve(product)
+            } else {
+                resolve('Product not found')
+            }
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+const updateProduct = async (data) => {
+    console.log("data", data)
+    return new Promise(async (resolve, reject) => {
+        try {
+            const product = await db.Product.findOne({
+                where: { id: data.id }
+            })
+            if (product) {
+                product.name = data.name
+                product.image = data.image
+                await product.save()
+                resolve('update Product succeed')
+            } else {
+                resolve('update Product failed')
+            }
+        } catch (e) {
+            reject(e)
+        }
+    })
 }
 const getPopularProduct = () => {
     return new Promise(async (resolve, reject) => {
@@ -157,8 +208,18 @@ const filterProduct = (params) => {
     }
     let orderRules = []
     if (params.sort_key && params.sort_rule) {
-        const sortKey = params.sort_key === 'date' ? 'createdAt' : 'price'
-        const sortRule = params.sort_rule === 'increase' ? 'ASC' : 'DESC'
+        let sortKey
+        let sortRule
+        if (params.sort_key === 'date') {
+            sortKey = 'createdAt'
+            sortRule = params.sort_rule === 'newest' ? 'ASC' : 'DESC'
+        } else if (params.sort_key === 'price') {
+            sortKey = 'price'
+            sortRule = params.sort_rule === 'increase' ? 'ASC' : 'DESC'
+        } else if (params.sort_key === 'name') {
+            sortKey = 'name'
+            sortRule = params.sort_rule === 'az' ? 'ASC' : 'DESC'
+        }
         orderRules = [...orderRules, [sortKey, sortRule]]
     }
     console.log("rules :", rules)
@@ -167,7 +228,7 @@ const filterProduct = (params) => {
     const skip = (page - 1) * pageSize
     return new Promise(async (resolve, reject) => {
         try {
-            const products = await db.Product.findAll({
+            const products = await db.Product.findAndCountAll({
                 include: [
                     {
                         model: db.Image_Product,
@@ -270,6 +331,9 @@ const productDetail = (id) => {
 }
 module.exports = {
     createProduct,
+    editProduct,
+    updateProduct,
+    deleteProduct,
     getAllProduct,
     getPopularProduct,
     getProductByCategory,
