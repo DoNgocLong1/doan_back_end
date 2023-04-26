@@ -43,7 +43,7 @@ const handleRegistry = async (req, res) => {
 }
 const findUserByToken = async (req, res) => {
     const data = await userServices.findUser(req.headers)
-    console.log(data)
+
     return res.json(data)
 };
 module.exports = {

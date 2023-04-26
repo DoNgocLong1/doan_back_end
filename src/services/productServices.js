@@ -78,7 +78,6 @@ const editProduct = async (id) => {
     })
 }
 const updateProduct = async (data) => {
-    console.log("data", data)
     return new Promise(async (resolve, reject) => {
         try {
             const product = await db.Product.findOne({
@@ -190,7 +189,6 @@ const filterProduct = (params) => {
         ]
     }
     if (params.category) {
-        console.log(params.category === '0')
         if (params.category === '0') {
             rules = rules
         } else {
@@ -317,12 +315,19 @@ const count = (params) => {
 const productDetail = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
+            const data = {}
             const product = await db.Product.findOne({
                 where: {
                     id: id,
                 }
             })
-            resolve(product)
+            console.log()
+            data.product = product
+            const images = await db.Image_Product.findAll({
+                where: { productId: id },
+            })
+            data.images = images
+            resolve(data)
         } catch (e) {
             reject(e)
         }

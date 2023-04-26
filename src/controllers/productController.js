@@ -6,13 +6,13 @@ const listProduct = (req, res) => {
 }
 
 const createProduct = async (req, res) => {
-    console.log(req.body)
+
     const product = await productServices.createProduct(req.body)
     return res.json({ message: product })
 }
 const editProduct = async (req, res) => {
     const data = await productServices.editProduct(req.query.id)
-    console.log(data)
+
     return res.json({ message: data })
 }
 const updateProduct = async (req, res) => {

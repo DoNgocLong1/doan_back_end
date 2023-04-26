@@ -62,7 +62,6 @@ const editUser = async (userId) => {
     })
 }
 const updateUser = async (data) => {
-    console.log("data", data)
     return new Promise(async (resolve, reject) => {
         try {
             const user = await db.User.findOne({

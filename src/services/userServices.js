@@ -115,7 +115,6 @@ const createUser = async (data) => {
     })
 }
 const update = async (email, data) => {
-    console.log('fet', data)
     return new Promise(async (resolve, reject) => {
         try {
             const user = await db.User.findOne({

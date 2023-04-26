@@ -57,7 +57,6 @@ const editCategory = async (id) => {
     })
 }
 const updateCategory = async (data) => {
-    console.log("data", data)
     return new Promise(async (resolve, reject) => {
         try {
             const category = await db.Category.findOne({
