@@ -16,6 +16,7 @@ const initWebRouters = (app) => {
     router.get('/api/user/find-user', userController.findUserByToken)
     router.post('/api/user/create-user', userController.handleCreateUser)
     router.post('/api/user/update-user', userController.handleUpdateUser)
+    router.get('/api/user/all-user', userController.getAllUsers)
 
     router.post('/api/login', userController.handleLogin)
     router.post('/api/registry', userController.handleRegistry)

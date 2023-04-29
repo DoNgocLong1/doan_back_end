@@ -46,10 +46,15 @@ const findUserByToken = async (req, res) => {
 
     return res.json(data)
 };
+const getAllUsers = async (req, res) => {
+    const data = await userServices.getAllUsers()
+    return res.json(data)
+};
 module.exports = {
     handleLogin,
     handleRegistry,
     handleCreateUser,
     handleUpdateUser,
-    findUserByToken
+    findUserByToken,
+    getAllUsers
 }

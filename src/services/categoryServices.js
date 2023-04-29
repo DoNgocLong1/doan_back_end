@@ -60,7 +60,7 @@ const updateCategory = async (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             const category = await db.Category.findOne({
-                where: { id: data.id }
+                where: { id: +data.id }
             })
             if (category) {
                 category.name = data.name

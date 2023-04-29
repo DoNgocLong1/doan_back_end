@@ -125,7 +125,7 @@ const update = async (email, data) => {
                 user.address = data.address
                 user.phoneNumber = data.phoneNumber
                 user.address = data.address
-                user.avatar = data.avatar
+                user.image = data.image
                 await user.save()
                 resolve('update succeed')
             } else {
@@ -137,6 +137,7 @@ const update = async (email, data) => {
     })
 }
 const updateUser = async (headers, data) => {
+    console.log(data)
     return new Promise(async (resolve, reject) => {
         try {
             const token = headers.authorization.split(' ')[1];
@@ -154,11 +155,21 @@ const updateUser = async (headers, data) => {
         }
     })
 }
-
+const getAllUsers = async () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const allUsers = await db.User.findAll()
+            resolve(allUsers)
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
 module.exports = {
     handleUserLogin,
     handleRegistryUser,
     createUser,
     updateUser,
-    findUser
+    findUser,
+    getAllUsers
 }

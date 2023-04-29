@@ -24,7 +24,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       image: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        length: 20000,
       },
       roleId: {
         type: Sequelize.INTEGER
