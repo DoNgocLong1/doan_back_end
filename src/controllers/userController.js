@@ -31,6 +31,14 @@ const handleUpdateUser = async (req, res) => {
     const data = await userServices.updateUser(req.headers, req.body)
     return res.json(data)
 }
+const handleUpdateUserByID = async (req, res) => {
+    const data = await userServices.updateUserByID(req.body)
+    return res.json(data)
+}
+const handleDeleteUserByID = async (req, res) => {
+    const data = await userServices.deleteUserByID(req.body.id)
+    return res.json(data)
+}
 const handleRegistry = async (req, res) => {
     const user = {
         firstname: req.body.fistName,
@@ -50,11 +58,18 @@ const getAllUsers = async (req, res) => {
     const data = await userServices.getAllUsers()
     return res.json(data)
 };
+const getUsersById = async (req, res) => {
+    const data = await userServices.getUsersById(req.query.id)
+    return res.json(data)
+}
 module.exports = {
     handleLogin,
     handleRegistry,
     handleCreateUser,
     handleUpdateUser,
     findUserByToken,
-    getAllUsers
+    getAllUsers,
+    getUsersById,
+    handleUpdateUserByID,
+    handleDeleteUserByID
 }

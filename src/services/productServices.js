@@ -85,7 +85,15 @@ const updateProduct = async (data) => {
             })
             if (product) {
                 product.name = data.name
-                product.image = data.image
+                product.categoryId = data.categoryId
+                product.brand = data.brand
+                product.price = data.price
+                product.description = data.description
+                product.parameter = data.parameter
+                product.quantityInStock = data.quantityInStock
+                product.rate = data.rate
+                product.discount = data.discount
+                product.sold = data.sold
                 await product.save()
                 resolve('update Product succeed')
             } else {
@@ -144,6 +152,7 @@ const getProductByCategory = (categoryId) => {
 
 }
 const createProductImage = (data) => {
+
     return new Promise(async (resolve, reject) => {
         try {
             await db.Image_Product.create({
@@ -334,6 +343,41 @@ const productDetail = (id) => {
     })
 
 }
+
+const updateProductImage = async (data) => {
+    console.log(data)
+    return new Promise(async (resolve, reject) => {
+        try {
+            const image = await db.Image_Product.findOne({
+                where: { productId: data.id }
+            })
+            if (image) {
+                image.image = data.image
+                await image.save()
+                resolve('update Image succeed')
+            } else {
+                resolve('update Image failed')
+            }
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+const deleteProductImage = async (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const image = await db.Image_Product.findOne({
+                where: { productId: id }
+            })
+            if (image) {
+                await image.destroy()
+            }
+            resolve('delete image succeed')
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
 module.exports = {
     createProduct,
     editProduct,
@@ -347,4 +391,6 @@ module.exports = {
     createProductImage,
     count,
     productDetail,
+    updateProductImage,
+    deleteProductImage
 }

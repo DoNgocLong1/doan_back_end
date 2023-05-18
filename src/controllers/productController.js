@@ -59,6 +59,20 @@ const selectProduct = async (req, res) => {
     const product = await productServices.productDetail(req.query.id)
     return res.json(product)
 }
+const updateProductImage = async (req, res) => {
+    const product = await productServices.updateProductImage(req.body)
+    return res.json(product)
+}
+const deleteProductImage = async (req, res) => {
+    const productId = req.body.id
+    console.log(req.body)
+    if (productId) {
+        const data = await productServices.deleteProductImage(productId)
+        return res.json({ message: data })
+    } else {
+        return res.json({ message: 'product not found' })
+    }
+}
 module.exports = {
     listProduct,
     editProduct,
@@ -71,4 +85,6 @@ module.exports = {
     createProductImage,
     count,
     selectProduct,
+    updateProductImage,
+    deleteProductImage,
 }

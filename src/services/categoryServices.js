@@ -20,8 +20,10 @@ const deleteCategory = async (id) => {
             })
             if (category) {
                 await category.destroy()
+                resolve('delete category succeed')
+            } else {
+                resolve('delete category failed')
             }
-            resolve('delete category succeed')
         } catch (e) {
             reject(e)
         }

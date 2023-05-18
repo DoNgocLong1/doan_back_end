@@ -17,6 +17,9 @@ const initWebRouters = (app) => {
     router.post('/api/user/create-user', userController.handleCreateUser)
     router.post('/api/user/update-user', userController.handleUpdateUser)
     router.get('/api/user/all-user', userController.getAllUsers)
+    router.get('/api/user', userController.getUsersById)
+    router.post('/api/user/update', userController.handleUpdateUserByID)
+    router.patch('/api/user/delete', userController.handleDeleteUserByID)
 
     router.post('/api/login', userController.handleLogin)
     router.post('/api/registry', userController.handleRegistry)
@@ -29,11 +32,15 @@ const initWebRouters = (app) => {
 
     router.post('/api/create-product', productController.createProduct)
     router.post('/api/delete-product', productController.deleteProduct)
-    router.post('/api/edit-product', productController.editProduct)
+    router.get('/api/edit-product', productController.editProduct)
     router.post('/api/update-product', productController.updateProduct)
-    router.get('/api/   products/get-all-products', productController.listProduct)
+    router.get('/api/products/get-all-products', productController.listProduct)
     router.get('/api/products/popular-product', productController.popularProduct)
     router.post('/api/create-product-image', productController.createProductImage)
+    router.post('/api/update-product-image', productController.updateProductImage,
+    )
+    router.post('/api/delete-product-image', productController.deleteProductImage,
+    )
     router.get('/api/products/get-all-products', productController.getProduct)
     router.get('/api/products/filter', productController.filterProduct)
     router.get('/api/products/count', productController.count)

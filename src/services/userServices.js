@@ -114,6 +114,30 @@ const createUser = async (data) => {
         }
     })
 }
+const updateUserByID = async (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await db.User.findOne({
+                where: { id: data.id }
+            })
+            console.log(user)
+            if (user) {
+                user.fullName = data.fullName
+                user.address = data.address
+                user.phoneNumber = data.phoneNumber
+                user.address = data.address
+                user.image = data.image
+                user.roleId = data.roleId
+                await user.save()
+                resolve('update succeed')
+            } else {
+                resolve('update failed')
+            }
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
 const update = async (email, data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -165,11 +189,43 @@ const getAllUsers = async () => {
         }
     })
 }
+const getUsersById = async (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await db.User.findOne({
+                where: {id:id}
+            })
+            resolve(user)
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+const deleteUserByID = async (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await db.User.findOne({
+                where: { id: id }
+            })
+            if (user) {
+                await user.destroy()
+                resolve('delete user succeed')
+            } else {
+                resolve('delete user failed')
+            }
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
 module.exports = {
     handleUserLogin,
     handleRegistryUser,
     createUser,
     updateUser,
     findUser,
-    getAllUsers
+    getAllUsers,
+    getUsersById,
+    updateUserByID,
+    deleteUserByID
 }
