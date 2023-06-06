@@ -93,8 +93,10 @@ const createUser = async (data) => {
         const response = {}
         try {
             const isExist = await checkUserEmail(data.email)
+            console.log(isExist)
             if (isExist) {
                 response.message = 'Email is already exist'
+                response.status = 400
             } else {
                 const passwordHashData = await handleHashPassword(data.password)
                 await db.User.create({
@@ -107,6 +109,7 @@ const createUser = async (data) => {
                     roleId: data.roleId || 2,
                 })
                 response.message = 'Create user succeed'
+                response.status = 200
             }
             resolve(response)
         } catch (e) {
@@ -120,7 +123,6 @@ const updateUserByID = async (data) => {
             const user = await db.User.findOne({
                 where: { id: data.id }
             })
-            console.log(user)
             if (user) {
                 user.fullName = data.fullName
                 user.address = data.address
@@ -150,6 +152,7 @@ const update = async (email, data) => {
                 user.phoneNumber = data.phoneNumber
                 user.address = data.address
                 user.image = data.image
+                console.log(data.image)
                 await user.save()
                 resolve('update succeed')
             } else {
@@ -193,7 +196,7 @@ const getUsersById = async (id) => {
     return new Promise(async (resolve, reject) => {
         try {
             const user = await db.User.findOne({
-                where: {id:id}
+                where: { id: id }
             })
             resolve(user)
         } catch (e) {
@@ -218,6 +221,42 @@ const deleteUserByID = async (id) => {
         }
     })
 }
+
+const changePassword = async (headers, dataUser) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = {}
+            const token = headers.authorization.split(' ')[1];
+            const data = jwt.verify(token, process.env.JWT_KEY, async (err, decodedToken) => {
+                if (err) {
+                    return 'Invalid token';
+                } else {
+                    const email = decodedToken.email;
+                    const user = await db.User.findOne({
+                        where: { email: email },
+                    })
+                    if (user) {
+                        const check = await bcrypt.compareSync(dataUser.password, user.password)
+                        if (check) {
+                            const hasPass = await handleHashPassword(dataUser.newPassword)
+                            user.password = hasPass
+                            await user.save()
+                            response.status = 200
+                            response.message = "Change password succeed"
+                        } else {
+                            response.status = 400
+                            response.message = "Your password incorrect"
+                        }
+                    }
+                }
+                return response;
+            })
+            resolve(data)
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
 module.exports = {
     handleUserLogin,
     handleRegistryUser,
@@ -227,5 +266,6 @@ module.exports = {
     getAllUsers,
     getUsersById,
     updateUserByID,
-    deleteUserByID
+    deleteUserByID,
+    changePassword
 }

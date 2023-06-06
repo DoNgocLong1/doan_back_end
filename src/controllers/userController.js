@@ -25,7 +25,10 @@ const handleLogin = async (req, res) => {
 }
 const handleCreateUser = async (req, res) => {
     const data = await userServices.createUser(req.body)
-    return res.json(data)
+    if (data.status !== 200) {
+        return res.status(400).json(data)
+    }
+    return res.status(200).json(data)
 }
 const handleUpdateUser = async (req, res) => {
     const data = await userServices.updateUser(req.headers, req.body)
@@ -62,6 +65,13 @@ const getUsersById = async (req, res) => {
     const data = await userServices.getUsersById(req.query.id)
     return res.json(data)
 }
+const changePassword = async (req, res) => {
+    const data = await userServices.changePassword(req.headers, req.body)
+    if (data.status === 400) {
+        return res.status(400).json(data.message)
+    }
+    return res.status(200).json(data.message)
+}
 module.exports = {
     handleLogin,
     handleRegistry,
@@ -71,5 +81,6 @@ module.exports = {
     getAllUsers,
     getUsersById,
     handleUpdateUserByID,
-    handleDeleteUserByID
+    handleDeleteUserByID,
+    changePassword
 }

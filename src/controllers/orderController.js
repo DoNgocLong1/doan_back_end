@@ -6,9 +6,14 @@ const createOrder = async (req, res) => {
 }
 const getOrder = async (req, res) => {
   const order = await orderServices.getOrder(req.headers);
-  return res.json({ message: order })
+  return res.json({ data: order })
+}
+const getProductByOrderId = async (req, res) => {
+  const products = await orderServices.getProductByOrderId(req.query.id);
+  return res.json({ data: products })
 }
 module.exports = {
   createOrder,
-  getOrder
+  getOrder,
+  getProductByOrderId
 }

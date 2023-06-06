@@ -20,6 +20,7 @@ const initWebRouters = (app) => {
     router.get('/api/user', userController.getUsersById)
     router.post('/api/user/update', userController.handleUpdateUserByID)
     router.patch('/api/user/delete', userController.handleDeleteUserByID)
+    router.post('/api/user/change-password', userController.changePassword)
 
     router.post('/api/login', userController.handleLogin)
     router.post('/api/registry', userController.handleRegistry)
@@ -49,6 +50,7 @@ const initWebRouters = (app) => {
 
     router.post('/api/order/create-order', orderController.createOrder)
     router.get('/api/order/get-order', orderController.getOrder)
+    router.get('/api/order/get-products', orderController.getProductByOrderId)
     return app.use('/', router)
 }
 module.exports = initWebRouters
