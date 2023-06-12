@@ -13,6 +13,7 @@ const initWebRouters = (app) => {
     router.get('/edit-user', homeController.editUser)
     router.post('/put-user', homeController.updateUser)
     router.get('/delete-user', homeController.deleteUser)
+
     router.get('/api/user/find-user', userController.findUserByToken)
     router.post('/api/user/create-user', userController.handleCreateUser)
     router.post('/api/user/update-user', userController.handleUpdateUser)
@@ -38,10 +39,8 @@ const initWebRouters = (app) => {
     router.get('/api/products/get-all-products', productController.listProduct)
     router.get('/api/products/popular-product', productController.popularProduct)
     router.post('/api/create-product-image', productController.createProductImage)
-    router.post('/api/update-product-image', productController.updateProductImage,
-    )
-    router.post('/api/delete-product-image', productController.deleteProductImage,
-    )
+    router.post('/api/update-product-image', productController.updateProductImage)
+    router.post('/api/delete-product-image', productController.deleteProductImage)
     router.get('/api/products/get-all-products', productController.getProduct)
     router.get('/api/products/filter', productController.filterProduct)
     router.get('/api/products/count', productController.count)
