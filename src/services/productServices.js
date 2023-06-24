@@ -336,7 +336,6 @@ const productDetail = (id) => {
                     id: id,
                 }
             })
-            console.log()
             data.product = product
             const images = await db.Image_Product.findAll({
                 where: { productId: id },
