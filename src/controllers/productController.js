@@ -40,6 +40,7 @@ const popularProduct = async (req, res) => {
 }
 const filterProduct = async (req, res) => {
     const productList = await productServices.filterProduct(req.query)
+    console.log('productList', productList)
     return res.json({
         data: productList,
         perPage: 12,
@@ -73,6 +74,10 @@ const deleteProductImage = async (req, res) => {
         return res.json({ message: 'product not found' })
     }
 }
+const getProductImage = async (req, res) => {
+    const data = await productServices.getProductImage(req.query)
+    return res.json(data)
+}
 module.exports = {
     listProduct,
     editProduct,
@@ -87,4 +92,5 @@ module.exports = {
     selectProduct,
     updateProductImage,
     deleteProductImage,
+    getProductImage
 }

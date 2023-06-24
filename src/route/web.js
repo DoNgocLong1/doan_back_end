@@ -38,6 +38,8 @@ const initWebRouters = (app) => {
     router.post('/api/update-product', productController.updateProduct)
     router.get('/api/products/get-all-products', productController.listProduct)
     router.get('/api/products/popular-product', productController.popularProduct)
+
+    router.get('/api/get-product-image', productController.getProductImage)
     router.post('/api/create-product-image', productController.createProductImage)
     router.post('/api/update-product-image', productController.updateProductImage)
     router.post('/api/delete-product-image', productController.deleteProductImage)

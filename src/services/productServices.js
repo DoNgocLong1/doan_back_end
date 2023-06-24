@@ -1,3 +1,4 @@
+import sequelize from "sequelize";
 import db from "../models/index"
 const { Op } = require("sequelize");
 const Sequelize = require('sequelize');
@@ -229,7 +230,6 @@ const filterProduct = (params) => {
         }
         orderRules = [...orderRules, [sortKey, sortRule]]
     }
-    console.log("rules :", rules)
     const pageSize = 12
     const page = params.page || 1
     const skip = (page - 1) * pageSize
@@ -239,14 +239,9 @@ const filterProduct = (params) => {
                 include: [
                     {
                         model: db.Image_Product,
-                        attributes: ['image']
+                        attributes: ['image'],
                     }
                 ],
-                /* attributes: {
-                    include: [
-                        [Sequelize.fn('COUNT', Sequelize.col('name')), 'total'],
-                    ],
-                }, */
                 where: {
                     [Op.and]: rules
                 },
@@ -255,10 +250,21 @@ const filterProduct = (params) => {
                 limit: pageSize,
                 raw: true,
                 nest: true,
-                //group: ['id']
+                distinct: true,
+                group: ['Product.id']
             })
             if (products) {
-                resolve(products)
+                const productList = [];
+                products?.rows?.forEach((item) => {
+                    const findItem = productList.find((product => product.id === item.id))
+                    if (!findItem) {
+                        productList.push(item)
+                    }
+                })
+                resolve({
+                    data: productList,
+                    count: products.count.length,
+                })
             } else {
                 resolve('product list empty')
             }
@@ -344,12 +350,32 @@ const productDetail = (id) => {
 
 }
 
+const getProductImage = async (query) => {
+    const pageSize = 12
+    const page = query.page || 1;
+    const skip = (page - 1) * pageSize
+    return new Promise(async (resolve, reject) => {
+        try {
+            const images = await db.Image_Product.findAll({
+                offset: skip,
+                limit: pageSize,
+            })
+            if (images) {
+                resolve(images)
+            } else {
+                resolve([])
+            }
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
 const updateProductImage = async (data) => {
-    console.log(data)
     return new Promise(async (resolve, reject) => {
         try {
             const image = await db.Image_Product.findOne({
-                where: { productId: data.id }
+                where: { productId: data.productId }
             })
             if (image) {
                 image.image = data.image
@@ -392,5 +418,6 @@ module.exports = {
     count,
     productDetail,
     updateProductImage,
-    deleteProductImage
+    deleteProductImage,
+    getProductImage
 }
